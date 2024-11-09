@@ -15,6 +15,9 @@ public class SemanticAnalyzer implements ActionObserver {
     private Stack<TokenKind> tokenKindStack = new Stack<>();
     private Stack<Token> tokenStack = new Stack<>();
     private SymbolTable symbolTable;
+    private Token temp_token;//whenReduce中用到的临时变量
+    private TokenKind temp_kind;//whenReduce中用到的临时变量
+    private String temp_id;//whenReduce中输出到symboltable的x变量
 
     @Override
     public void whenAccept(Status currentStatus) {
@@ -23,12 +26,19 @@ public class SemanticAnalyzer implements ActionObserver {
 
     @Override
     public void whenReduce(Status currentStatus, Production production) {
-        if (production.body().size()==1 && "int".equals(production.body().get(0).getTermName())) {
+
+        if (production.body().size()==1 && "int".equals(production.body().get(0).getTermName())) {//D -> int
             tokenKindStack.push(TokenKind.fromString("int"));
         }
-        else if (production.body().size()==2 && "id".equals(production.body().get(1).getTermName())){
-
-
+        else if (production.body().size()==2 && "id".equals(production.body().get(1).getTermName())){//S->D id
+            temp_token=tokenStack.pop();
+            temp_id=temp_token.getText();
+            if (tokenKindStack.pop()==TokenKind.fromString("int")){
+                if (!(symbolTable.has(temp_id))){
+                    throw new RuntimeException("Record "+temp_id+" should have been added to the symbol table");
+                }
+                symbolTable.setIntType(temp_id);
+            }
 
         }
     }
