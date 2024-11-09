@@ -23,7 +23,6 @@ public class SemanticAnalyzer implements ActionObserver {
     public void whenAccept(Status currentStatus) {
         // do nothing
     }
-
     @Override
     public void whenReduce(Status currentStatus, Production production) {
 
