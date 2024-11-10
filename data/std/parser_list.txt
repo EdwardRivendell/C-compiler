@@ -6,32 +6,36 @@ D -> int
 S -> D id
 D -> int
 S -> D id
+
 B -> IntConst
 A -> B
 E -> A
-S -> id = E
+S -> id = E//a=8,运算符号栈里没有运算符，mov
+
 B -> IntConst
 A -> B
 E -> A
-S -> id = E
+S -> id = E//b=5
+
 B -> IntConst
 A -> B
 E -> A
-B -> id
+B -> id//a
 A -> B
-E -> E - A
-S -> id = E
-B -> id
+E -> E - A//3-a
+S -> id = E//c=3-a
+
+B -> id//a
 A -> B
-B -> id
-A -> A * B
+B -> id//b
+A -> A * B//(MUL, $1, a, b)
 E -> A
-B -> IntConst
+B -> IntConst//3
 A -> B
 E -> A
-B -> id
+B -> id//b
 A -> B
-E -> E + A
+E -> E + A//(ADD, $2, 3, b)
 B -> ( E )
 A -> B
 B -> id
@@ -39,15 +43,17 @@ A -> B
 E -> A
 B -> id
 A -> B
-E -> E - A
+E -> E - A//(SUB, $3, c, a)
 B -> ( E )
-A -> A * B
-E -> E - A
-S -> id = E
+A -> A * B//(MUL, $4, $2, $3)
+E -> E - A//(SUB, $5, $1, $4)
+S -> id = E//(MOV, result, $5)
+
 B -> id
 A -> B
 E -> A
 S -> return E
+
 S_list -> S Semicolon
 S_list -> S Semicolon S_list
 S_list -> S Semicolon S_list
