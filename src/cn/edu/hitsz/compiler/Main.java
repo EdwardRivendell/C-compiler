@@ -66,13 +66,13 @@ public class Main {
         // 模拟执行 IR 并输出结果
         final var emulator = IREmulator.load(instructions);
         FileUtils.writeFile(FilePathConfig.EMULATE_RESULT, emulator.execute().map(Objects::toString).orElse("No return value"));
-/**
+
         // 由 IR 生成汇编
         final var asmGenerator = new AssemblyGenerator();
         asmGenerator.loadIR(instructions);
         asmGenerator.run();
         asmGenerator.dump(FilePathConfig.ASSEMBLY_LANGUAGE_PATH);
-*/
+
     }
 
 }
